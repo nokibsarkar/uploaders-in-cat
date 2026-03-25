@@ -38,3 +38,11 @@ def get_uploaders_in_category(category_name):
             upload_count += row[1]
 
         return uploaders, upload_count
+
+if __name__ == "__main__":
+    category = "Images from Wiki Loves Folklore 2026"
+    uploaders, upload_count = get_uploaders_in_category(category)
+    print(f"Uploaders in category '{category}':")
+    for uploader in uploaders:
+        print(f"{uploader[0]}: {uploader[1]} uploads")
+    print(f"Total uploads: {upload_count}")
