@@ -37,6 +37,7 @@ HTML_TEMPLATE = """
    {% if uploaders %}
     <h1>Uploaders in Category: {{ category }}</h1>
     <h2>Total Uploads: {{ upload_count }}</h2>
+    <h2>Total Uploaders: {{ uploaders|length }}</h2>
     
    
     <table border="1">
