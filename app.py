@@ -79,6 +79,7 @@ def get_uploaders_in_category(category_name):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     uploaders = []
+    upload_count = 0
     category = ""
     if request.method == 'POST':
         category = request.form['category']
