@@ -35,7 +35,7 @@ HTML_TEMPLATE = """
         <input type="text" id="category" name="category" required value="{{ category }}">
         <button type="submit">Submit</button>
     </form>
-   {% if uploaders|length > 0 %}
+   {% if uploaders %}
     <h1>Uploaders in Category: {{ category }}</h1>
     <h2>Total Uploads: {{ upload_count }}</h2>
     
