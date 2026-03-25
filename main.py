@@ -19,7 +19,8 @@ SQL_QUERY = """
 """
 
 def normalize_category_name(category_name : str):
-    words = category_name.strip().split()
+    category_name = category_name.replace(' ', '_')
+    words = category_name.strip().split("_")
     if not words:
         return ""
     # captalize the first letter of first word
