@@ -71,7 +71,7 @@ def index():
                                   category=category, 
                                   upload_count=upload_count)
 
-@app.route('/{category}', methods=['GET', 'POST'])
+@app.route('/<category>', methods=['GET', 'POST'])
 def category(category):
     uploaders , upload_count = get_uploaders_in_category(category)
     return render_template_string(HTML_TEMPLATE, 
