@@ -10,11 +10,28 @@ HTML_TEMPLATE = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uploaders in Category</title>
+    <script>
+    function submitCategory(e) {
+        e.preventDefault();
+        const categoryInput = document.getElementById('category');
+        const category = categoryInput.value.trim();
+        if (category) {
+            window.location.href = `/${encodeURIComponent(category)}`;
+        } else {
+            alert('Please enter a category name.');
+        }
+    }
+    </script>
 </head>
 <body>
-    <form method="post" action="/">
-        <label for="category">Enter Category Name:</label>
-        <input type="text" id="category" name="category" required value="{{ category }}">
+    <form method="post" action="/" onsubmit="submitCategory(event)">
+
+        <label for="category">Enter Category Name (Without Category: prefix):</label>
+        <input type="text" id="category" 
+            name="category"
+            required value="{{ category }}" 
+            placeholder="e.g. Images from Wiki Loves Folklore 2026"
+        />
         <button type="submit">Submit</button>
     </form>
    {% if uploaders %}
