@@ -19,10 +19,12 @@ SQL_QUERY = """
 """
 
 def normalize_category_name(category_name : str):
-    # Capitalize first letter, replace spaces with _, NFC normalization
-    name = category_name.strip().replace(' ', '_')
-    # Use str.title() for locale-aware capitalization (handles multibyte)
-    name = name.title() if name else name
+    words = category_name.strip().split()
+    if not words:
+        return ""
+    # captalize the first letter of first word
+    words[0] = words[0].title()
+    name = '_'.join(words)
     name = unicodedata.normalize('NFC', name)
     return name
 
