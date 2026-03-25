@@ -37,7 +37,7 @@ def get_uploaders_in_category(category_name):
         num_rows = cursor.execute(SQL_QUERY, (norm_category,))
         print(f"Executed query for category '{norm_category}', got {num_rows} rows.")
         for row in cursor.fetchall():
-            uploaders.append((row[0], row[1]))
+            uploaders.append((row[0].decode('utf-8'), row[1]))
             upload_count += row[1]
 
         return uploaders, upload_count
@@ -47,5 +47,5 @@ if __name__ == "__main__":
     uploaders, upload_count = get_uploaders_in_category(category)
     print(f"Uploaders in category '{category}':")
     for uploader in uploaders:
-        print(f"{uploader[0].decode('utf-8')}: {uploader[1]} uploads")
+        print(f"{uploader[0]}: {uploader[1]} uploads")
     print(f"Total uploads: {upload_count}")
