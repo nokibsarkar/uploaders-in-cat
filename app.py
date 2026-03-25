@@ -32,7 +32,7 @@ HTML_TEMPLATE = """
 <body>
     <form method="post" action="/">
         <label for="category">Enter Category Name:</label>
-        <input type="text" id="category" name="category" required>
+        <input type="text" id="category" name="category" required value="{{ category }}">
         <button type="submit">Submit</button>
     </form>
    {% if uploaders|length > 0 %}
@@ -87,4 +87,6 @@ def index():
         uploaders, upload_count = uploaders_raw
         print(uploaders)
     return render_template_string(HTML_TEMPLATE, 
-                                  uploaders=uploaders, category=category, upload_count=upload_count)
+                                  uploaders=uploaders, 
+                                  category=category, 
+                                  upload_count=upload_count)
