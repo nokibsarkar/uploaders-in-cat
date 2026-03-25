@@ -44,7 +44,7 @@ def get_uploaders_in_category(category_name):
         return uploaders, upload_count
 
 if __name__ == "__main__":
-    category = "Images from Wiki Loves Folklore 2026"
+    category = "Images_from_Wiki_Loves_Folklore_2026"
     uploaders, upload_count = get_uploaders_in_category(category)
     print(f"Uploaders in category '{category}':")
     for uploader in uploaders:
