@@ -1,21 +1,24 @@
 from flask import Flask, render_template_string, request
 import toolforge
 
+import unicodedata
+
 app = Flask(__name__)
+
 
 
 SQL_QUERY = """
  SELECT actor_name, COUNT(fr_id) AS cnt
-    FROM linktarget
-    JOIN categorylinks ON lt_id = cl_target_id
-    JOIN page ON cl_from = page_id
-    JOIN file ON page_title = file_name
-    JOIN filerevision ON fr_id = file_latest
-    JOIN actor ON fr_actor = actor_id
-    WHERE lt_namespace = 14 
-      AND lt_title = ?
-    GROUP BY actor_id
-    ORDER BY cnt DESC
+        FROM linktarget
+        JOIN categorylinks ON lt_id = cl_target_id
+        JOIN page ON cl_from = page_id
+        JOIN file ON page_title = file_name
+        JOIN filerevision ON fr_id = file_latest
+        JOIN actor ON fr_actor = actor_id
+        WHERE lt_namespace = 14 
+            AND lt_title = %s
+        GROUP BY actor_id
+        ORDER BY cnt DESC
 """
 
 HTML_TEMPLATE = """
@@ -52,10 +55,19 @@ HTML_TEMPLATE = """
 </body>
 </html>
 """
+def normalize_category_name(category_name : str):
+    # Capitalize first letter, replace spaces with _, NFC normalization
+    name = category_name.strip().replace(' ', '_')
+    # Use str.title() for locale-aware capitalization (handles multibyte)
+    name = name.title() if name else name
+    name = unicodedata.normalize('NFC', name)
+    return name
+
 def get_uploaders_in_category(category_name):
+    norm_category = normalize_category_name(category_name)
     conn = toolforge.connect('commonswiki')
     with conn.cursor() as cursor:
-        cursor.execute(SQL_QUERY, (category_name,))
+        cursor.execute(SQL_QUERY, (norm_category,))
         results = cursor.fetchall()
         return results
 
