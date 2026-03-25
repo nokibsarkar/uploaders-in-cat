@@ -16,7 +16,7 @@ HTML_TEMPLATE = """
         const categoryInput = document.getElementById('category');
         const category = categoryInput.value.trim();
         if (category) {
-            window.location.href = `/${encodeURIComponent(category)}`;
+            window.location.href = `/${category}`;
         } else {
             alert('Please enter a category name.');
         }
