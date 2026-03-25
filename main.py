@@ -47,5 +47,5 @@ if __name__ == "__main__":
     uploaders, upload_count = get_uploaders_in_category(category)
     print(f"Uploaders in category '{category}':")
     for uploader in uploaders:
-        print(f"{uploader[0]}: {uploader[1]} uploads")
+        print(f"{uploader[0].decode('utf-8')}: {uploader[1]} uploads")
     print(f"Total uploads: {upload_count}")
