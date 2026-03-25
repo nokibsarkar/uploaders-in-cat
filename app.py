@@ -37,6 +37,7 @@ HTML_TEMPLATE = """
     </form>
    {% if uploaders|length > 0 %}
     <h1>Uploaders in Category: {{ category }}</h1>
+    <h2>Total Uploads: {{ upload_count }}</h2>
     
    
     <table border="1">
@@ -66,10 +67,14 @@ def normalize_category_name(category_name : str):
 def get_uploaders_in_category(category_name):
     norm_category = normalize_category_name(category_name)
     conn = toolforge.connect('commonswiki')
+    uploaders = []
+    upload_count = 0
     with conn.cursor() as cursor:
         cursor.execute(SQL_QUERY, (norm_category,))
-        results = cursor.fetchall()
-        return results
+        for row in cursor.fetchall():
+            uploaders.append((row[0], row[1]))
+            upload_count += row[1]
+        return uploaders, upload_count
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -78,6 +83,7 @@ def index():
     if request.method == 'POST':
         category = request.form['category']
         uploaders_raw = get_uploaders_in_category(category)
-        uploaders = [(row[0], row[1]) for row in uploaders_raw]
+        uploaders, upload_count = uploaders_raw
         print(uploaders)
-    return render_template_string(HTML_TEMPLATE, uploaders=uploaders, category=category)
+    return render_template_string(HTML_TEMPLATE, 
+                                  uploaders=uploaders, category=category, upload_count=upload_count)
