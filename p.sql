@@ -1,0 +1,11 @@
+UPDATE `evaluations` e JOIN ( SELECT `evaluation_id` FROM `evaluations` e2 WHERE e2.submission_id NOT IN ( SELECT `submission_id` FROM `evaluations` WHERE `judge_id` = 'j3g8k36hf6x3k' AND `round_id` = 'r3g8k36dtc740' UNION SELECT `submission_id` FROM `submissions` s WHERE `s`.`round_id` = 'r3g8k36dtc740' AND `s`.`submitted_by_id` = 'u2apxzgq8r8rx' ) AND e2.round_id = 'r3g8k36dtc740' AND e2.score IS NULL AND e2.evaluated_at IS NULL AND ( e2.distribution_task_id IS NULL OR e2.distribution_task_id <> 't3hbbk9nu4oow' ) GROUP BY e2.submission_id LIMIT 72 ) AS `e2` ON e.evaluation_id = e2.evaluation_id SET e.judge_id = 'j3g8k36hf6x3k', e.distribution_task_id = 't3hbbk9nu4oow' LIMIT 72; 
+SELECT `evaluation_id` FROM `evaluations` e2 WHERE e2.submission_id NOT IN ( SELECT `submission_id` FROM `evaluations` WHERE `judge_id` = 'j3g8k36hcp0qy' AND `round_id` = 'r3g8k36dtc740' UNION SELECT `submission_id` FROM `submissions` s WHERE `s`.`round_id` = 'r3g8k36dtc740' AND `s`.`submitted_by_id` = 'u2apxzgq8r980' ) AND e2.round_id = 'r3g8k36dtc740' AND e2.score IS NULL AND e2.evaluated_at IS NULL;
+
+UPDATE evaluations e2 set judge_id = (select role_id from roles where round_id='r3g8k36dtc740' and role_id not in (select distinct judge_id from evaluations where round_id='r3g8k36dtc740' and submission_id <> e2.submission_id and judge_id is not null) LIMIT 1) where e2.judge_id is null and e2.score is null and e2.evaluated_at is null and e2.round_id='r3g8k36dtc740';
+select evaluation_id, (select role_id from roles where role_id not in (select judge_id from evaluations where round_id='r3g8k36dtc740' and judge_id is not null and submission_id in (
+    select submission_id from evaluations where round_id='r3g8k36dtc740' and judge_id is null and score is null and evaluated_at is null
+)) and round_id='r3g8k36dtc740' ORDER BY RAND() LIMIT 1) as future_judge_id from evaluations where round_id='r3g8k36dtc740' and judge_id is null and score is null and evaluated_at is null;
+
+UPDATE evaluations e2 SET e2.judge_id = 'j3g8k36hf6x3h' where e2.judge_id is null and e2.score is null and e2.evaluated_at is null and e2.round_id='r3g8k36dtc740' and e2.submission_id not in (
+    select submission_id from evaluations where round_id='r3g8k36dtc740' and judge_id = 'j3g8k36hf6x3h'
+ );
